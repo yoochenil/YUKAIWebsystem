@@ -1,0 +1,41 @@
+body {
+    margin-top: 40px;
+    text-align: center;
+    font-size: 14px;
+    font-family: "Lucida Grande", Helvetica, Arial, Verdana, sans-serif;
+}
+
+#wrap {
+    width: 1800px;
+    margin: 0 auto;
+}
+
+#external-events {
+    float: left;
+    width: 150px;
+    padding: 0 10px;
+    border: 1px solid #ccc;
+    background: #eee;
+    text-align: left;
+}
+
+#external-events h4 {
+    font-size: 16px;
+    margin-top: 0;
+    padding-top: 1em;
+}
+
+#external-events .fc-event {
+    margin: 10px 0;
+    cursor: pointer;
+}
+
+#calendar {
+    margin-left: 5px;
+    float: left;
+    width: 1600px;
+}
+
+.fc-widget-content{
+    height: 50px;
+}

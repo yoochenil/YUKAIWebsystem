@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.websystem.www.dao.CourseDao">
+
+	<resultMap type="Course" id="CourseResult">
+		<result property="courseid" column="courseid"/>
+		<result property="coursename" column="coursename"/>
+		<result property="kb_course" column="kb_course"/>
+        <result property="kb_coursename" column="kb_coursename"/>
+		<result property="coursetime" column="coursetime"/>
+		<result property="note" column="note"/>
+		<result property="dts_rec_cre" column="dts_rec_cre"/>
+		<result property="user_rec_cre" column="user_rec_cre"/>
+		<result property="dts_rec_upd" column="dts_rec_upd"/>
+		<result property="user_rec_upd" column="user_rec_upd"/>
+		<result property="delkbn" column="delkbn"/>
+		<result property="price_uriage" column="price_uriage"/>
+		<result property="price_genka" column="price_genka"/>
+	</resultMap>
+
+	<select id="getCourseList" resultMap="CourseResult">
+        select
+               courseid
+                ,kb_course || ':' || coursename as kb_coursename
+                ,coursename
+                ,kb_course
+                ,coursetime
+		        ,price_uriage
+		        ,price_genka
+        from
+             t_course
+        where
+                delkbn='0'
+        order by
+                 kb_course,coursetime;
+	</select>
+
+</mapper>

@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.websystem.www.dao.HanyoDao">
+
+	<resultMap type="Hanyo" id="HanyoResult">
+		<result property="hanyoid" column="hanyoid"/>
+		<result property="kb_hanyo" column="kb_hanyo"/>
+		<result property="cd_hanyo" column="cd_hanyo"/>
+		<result property="masterti" column="masterti"/>
+		<result property="flg_hanyo_1" column="flg_hanyo_1"/>
+		<result property="flg_hanyo_2" column="flg_hanyo_2"/>
+		<result property="flg_hanyo_3" column="flg_hanyo_3"/>
+		<result property="flg_hanyo_4" column="flg_hanyo_4"/>
+		<result property="note" column="note"/>
+		<result property="dts_rec_cre" column="dts_rec_cre"/>
+		<result property="user_rec_cre" column="user_rec_cre"/>
+		<result property="dts_rec_upd" column="dts_rec_upd"/>
+		<result property="user_rec_upd" column="user_rec_upd"/>
+		<result property="delkbn" column="delkbn"/>
+		<result property="roleid" column="roleid"/>
+	</resultMap>
+
+	<select id="getHanyoByKb" parameterType="String" resultMap="HanyoResult">
+		SELECT
+			HANYOID,
+			KB_HANYO,
+			CD_HANYO,
+			MASTERTI,
+			FLG_HANYO_1,
+			FLG_HANYO_2,
+			FLG_HANYO_3,
+			FLG_HANYO_4,
+			NOTE,
+			DTS_REC_CRE,
+			USER_REC_CRE,
+			DTS_REC_UPD,
+			USER_REC_UPD,
+			DELKBN
+		FROM
+			T_HANYO
+		WHERE
+			KB_HANYO=#{kb_hanyo};
+	</select>
+
+</mapper>

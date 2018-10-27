@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.websystem.www.dao.UserDao">
+
+	<resultMap type="User" id="UserResult">
+		<result property="userid" column="userid"/>
+		<result property="userame" column="userame"/>
+		<result property="password" column="password"/>
+		<result property="email" column="email"/>
+		<result property="name_kanji" column="name_kanji"/>
+		<result property="name_kana" column="name_kana"/>
+		<result property="birthday" column="birthday"/>
+		<result property="gender" column="gender"/>
+		<result property="todohuken" column="todohuken"/>
+		<result property="address1" column="address1"/>
+		<result property="address2" column="address2"/>
+		<result property="address3" column="address3"/>
+		<result property="storeid" column="storeid"/>
+		<result property="work_time" column="work_time"/>
+		<result property="note" column="note"/>
+		<result property="dts_rec_cre" column="dts_rec_cre"/>
+		<result property="user_rec_cre" column="user_rec_cre"/>
+		<result property="dts_rec_upd" column="dts_rec_upd"/>
+		<result property="user_rec_upd" column="user_rec_upd"/>
+		<result property="delkbn" column="delkbn"/>
+		<result property="roleid" column="roleid"/>
+		<result property="name_display" column="name_display"/>
+	</resultMap>
+
+	<select id="getByUserName" parameterType="String" resultMap="UserResult">
+		SELECT
+			userid
+			, username
+			, password
+			, email
+			, name_kanji
+			, name_kana
+			, birthday
+			, gender
+			, todohuken
+			, address1
+			, address2
+			, address3
+			, storeid
+			, work_time
+			, note
+			, dts_rec_cre
+			, user_rec_cre
+			, dts_rec_upd
+			, user_rec_upd
+			, delkbn
+			, roleid
+		    , name_display
+		FROM t_user
+		WHERE
+			username=#{username};
+	</select>
+
+	<select id="getRoles" parameterType="String" resultType="String">
+		select r.rolename from t_user u,t_role r where u.roleid=r.roleid and u.username=#{username}
+	</select>
+
+	<select id="getPermissions" parameterType="String" resultType="String">
+		select p.permissionname from t_user u,t_role r,t_permission p where u.roleid=r.roleid and p.roleid=r.roleid and u.username=#{username}
+	</select>
+
+	<select id="getUserList" parameterType="String" resultMap="UserResult">
+		select
+            username,
+			name_display
+		from
+			t_user
+        where
+            storeid = #{storeid}
+        and delkbn = '0';
+	</select>
+
+	<select id="getTodohukenList" resultType="String">
+		select todohuken_kanji from t_post group by todohuken_kanji order by todohuken_kanji
+	</select>
+
+	<insert id="insUser" parameterType="User">
+	SET TRANSACTION READ WRITE;
+		insert into t_user (
+			userName,
+			password,
+			email,
+			name_kanji,
+			name_kana,
+			birthday,
+			gender,
+			todohuken,
+			address1,
+			address2,
+			address3,
+			storeid,
+			work_time,
+			dts_rec_cre,
+			user_rec_cre,
+			dts_rec_upd,
+			user_rec_upd,
+			roleid,
+			post,
+			name_display)
+		values(
+		    #{userName},
+			#{password},
+			#{email},
+			#{name_kanji},
+			#{name_kana},
+			#{birthday},
+			#{gender},
+			#{todohuken},
+			#{address1},
+			#{address2},
+			#{address3},
+			#{storeid},
+			#{work_time},
+			current_timestamp,
+			'registerpage',
+			current_timestamp,
+			'registerpage',
+			'1',
+			#{post},
+			#{name_display});
+
+
+	</insert>
+
+
+</mapper>

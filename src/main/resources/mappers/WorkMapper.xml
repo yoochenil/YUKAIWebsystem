@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.websystem.www.dao.WorkDao">
+
+	<resultMap type="Work" id="WorkResult">
+		<result property="id" column="id"/>
+		<result property="title" column="title"/>
+		<result property="storeid" column="storeid"/>
+		<result property="roomid" column="roomid"/>
+		<result property="resourceid" column="resourceid"/>
+		<result property="start" column="start"/>
+		<result property="end" column="end"/>
+		<result property="courseid" column="courseid"/>
+		<result property="note" column="note"/>
+		<result property="dts_rec_cre" column="dts_rec_cre"/>
+		<result property="user_rec_cre" column="user_rec_cre"/>
+		<result property="dts_rec_upd" column="dts_rec_upd"/>
+		<result property="user_rec_upd" column="user_rec_upd"/>
+		<result property="delkbn" column="delkbn"/>
+		<result property="level" column="level"/>
+		<result property="staffid" column="staffid"/>
+	</resultMap>
+
+	<select id="ajaxGetWork" parameterType="HashMap" resultMap="WorkResult">
+	select
+		id,
+		title,
+		storeid,
+		roomid,
+		resourceid,
+		date_trunc('second',"start") as start,
+		date_trunc('second',"end") as end,
+		courseid,
+		note,
+		dts_rec_cre,
+		user_rec_cre,
+		dts_rec_upd,
+		user_rec_upd,
+		delkbn,
+		"level",
+		staffid
+	from
+		t_work
+	where
+	    to_char(dts_rec_cre,'yyyymmdd') = #{date}
+    and storeid=#{storeid}
+    and delkbn = '0';
+
+	</select>
+
+	<insert id="insWork" useGeneratedKeys="true" keyProperty="id" parameterType="Work">
+		<selectKey keyProperty="id" resultType="String" order="AFTER">
+			SELECT last_value FROM t_work_workid_seq;
+		</selectKey>
+        SET TRANSACTION READ WRITE;
+        insert into t_work (
+                courseid,
+                "end",
+                note,
+                resourceid,
+                roomid,
+                staffid,
+                "start",
+                "level",
+                storeid,
+                title,
+                user_rec_cre,
+                user_rec_upd)
+        values(
+                      #{courseid},
+                      #{end},
+                      #{note},
+                      #{resourceid},
+                      #{roomid},
+                      #{staffid},
+                      #{start},
+                      #{level},
+                      #{storeid},
+                      #{title},
+                      'calendar.ajax.insWork',
+                      'calendar.ajax.insWork');
+	</insert>
+
+	<update id="updWork" parameterType="Work">
+
+		SET TRANSACTION READ WRITE;
+        update
+            t_work
+        set
+            title = #{title},
+            storeid = #{storeid},
+            roomid = #{roomid},
+            resourceid = #{resourceid},
+            "start" = #{start},
+            "end" = #{end},
+            courseid = #{courseid},
+            note = #{note},
+            dts_rec_upd = current_timestamp,
+            user_rec_upd = 'calendar.updWork',
+            "level" = #{level},
+            staffid = #{staffid}
+        where
+            id = #{id}
+	</update>
+
+    <update id="delWork" parameterType="String">
+
+        SET TRANSACTION READ WRITE;
+        update
+          t_work
+        set
+          delkbn = '1',
+          dts_rec_upd = current_timestamp,
+          user_rec_upd = 'calendar.delWork'
+        where
+        id = #{id}
+    </update>
+
+</mapper>

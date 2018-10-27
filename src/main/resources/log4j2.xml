@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="off">
+    <!-- ログの出力先と出力フォーマットを指定する -->
+    <Appenders>
+        <Console name="console-appender" target="SYSTEM_OUT">
+            <PatternLayout pattern="[%d{yyyy-MM-dd HH:mm:ss.SSS}]&#x9;%-5p&#x9;%C&#x9;%M&#x9;line:%L&#x9;%m%n"/>
+        </Console>
+
+        <RollingFile name="file-appender"
+                     fileName="D:/Documents/java/logs/Err.log"
+                     filePattern="D:/Documents/java/logs/ErrBAK-%d{yyyy-MM-dd}-%i.log">
+            <PatternLayout pattern="[%d{yyyy-MM-dd HH:mm:ss.SSS}]&#x9;%-5p&#x9;%C&#x9;%M&#x9;line:%L&#x9;%m%n"/>
+            <Policies>
+                <OnStartupTriggeringPolicy />
+                <SizeBasedTriggeringPolicy size="1024 KB" />
+            </Policies>
+            <DefaultRolloverStrategy max="10"/>
+        </RollingFile>
+    </Appenders>
+
+    <!-- パッケージごとにAppenderとログレベルを組み合わせる -->
+    <Loggers>
+        <Logger name="com.websystem.www" level="DEBUG">
+            <AppenderRef ref="console-appender"/>
+            <AppenderRef ref="file-appender" />
+        </Logger>
+
+         <Root level="DEBUG">
+            <AppenderRef ref="console-appender"/>
+        </Root>
+    </Loggers>
+</Configuration>
