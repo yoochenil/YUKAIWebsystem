@@ -18,4 +18,6 @@ public interface WorkDao {
 
 	int delWork(String id);
 
+	List<HashMap<String,String>> ajaxGetWorkDataTable(HashMap<String, String> paramMap);
+
 }

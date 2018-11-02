@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.websystem.www.dao.ChartDao">
+
+	<select id="ajaxGetMonthlySalesAndCost" parameterType="HashMap" resultType="HashMap">
+	SELECT
+		to_char(date_trunc('day', W.start),'yyyy年MM月dd日') as date
+		, SUM(to_number(c.price_uriage, '9999999999')) as uriage
+		, SUM(to_number(c.price_genka, '9999999999')) as genka
+	FROM T_WORK W
+	LEFT JOIN T_COURSE C
+		ON C.COURSEID = W.COURSEID
+	where date_trunc('day', W.start) between to_date(#{from},'yyyy-MM-dd') and to_date(#{to},'yyyy-MM-dd')
+	<if test="storeid != null">
+	  and storeid = #{storeid}
+    </if>
+	group by date
+	order by date;
+	</select>
+
+</mapper>

@@ -20,6 +20,7 @@
     <link rel="stylesheet" href="/resources/css/ace.min.css" class="ace-main-stylesheet" id="main-ace-style"/>
     <link rel="stylesheet" href="/resources/css/ace-skins.min.css"/>
     <link rel="stylesheet" href="/resources/css/ace-rtl.min.css"/>
+    <script type="text/javascript" charset="utf-8" src="${pageContext.request.contextPath }/resources/js/full-calendar/jquery.min.js"></script>
     <script src="/resources/js/ace-extra.min.js"></script>
     <script src="/resources/js/jquery-2.1.4.min.js"></script>
 </head>
@@ -86,45 +87,45 @@
 
             <ul class="nav nav-list">
                 <li class="">
-                    <a href="#">
+                    <a href="/work/board">
                         <i class="menu-icon fa fa-tachometer"></i>
                         <span class="menu-text"> Dashboard </span>
                     </a>
                 </li>
-                <li class="">
+                <li class="store1">
                     <a href="#">
-                        <i class="menu-icon fa fa-desktop"></i>
-                        <span class="menu-text">UI &amp; Elements</span>
+                        <i class="menu-icon fa fa-angle-right"></i>
+                        <span class="menu-text">1号店</span>
                     </a>
                 </li>
-                <li class="">
+                <li class="store2">
                     <a href="#">
-                        <i class="menu-icon fa fa-list"></i>
-                        <span class="menu-text"> Tables </span>
+                        <i class="menu-icon fa fa-angle-right"></i>
+                        <span class="menu-text">２号店</span>
                     </a>
                 </li>
-                <li class="">
+                <li class="store3">
                     <a href="#" class="dropdown-toggle">
-                        <i class="menu-icon fa fa-pencil-square-o"></i>
-                        <span class="menu-text"> Forms </span>
+                        <i class="menu-icon fa fa-angle-right"></i>
+                        <span class="menu-text">３号店</span>
                     </a>
                 </li>
-                <li class="">
+                <li class="store4">
                     <a href="#">
-                        <i class="menu-icon fa fa-list-alt"></i>
-                        <span class="menu-text"> Widgets </span>
+                        <i class="menu-icon fa fa-angle-right"></i>
+                        <span class="menu-text">４号店</span>
                     </a>
                 </li>
-                <li class="">
+                <li class="datatable">
                     <a href="#">
                         <i class="menu-icon fa fa-calendar"></i>
-                        <span class="menu-text">Calendar</span>
+                        <span class="menu-text">データ</span>
                     </a>
                 </li>
-                <li class="">
+                <li class="datachart">
                     <a href="#">
                         <i class="menu-icon fa fa-picture-o"></i>
-                        <span class="menu-text"> Gallery </span>
+                        <span class="menu-text"> Chart </span>
                     </a>
                 </li>
                 <li class="">
@@ -144,8 +145,8 @@
             <div class="main-content-inner">
                 <div class="page-content">
                     <div class="row">
-                        <div class="col-xs-12">
-                            <embed type="text/html" src="/work/store-1" width="100%" height="750px">
+                        <div class="col-xs-12" id="board-main">
+                            <embed type="text/html" src="/work/board-main" width="100%" height="750px">
                         </div>
                     </div>
                 </div>
@@ -170,6 +171,33 @@
     <script src="/resources/js/bootstrap.min.js"></script>
     <script src="/resources/js/ace-elements.min.js"></script>
     <script src="/resources/js/ace.min.js"></script>
+    <script>
+        $('.store1').click(function(){
+            const html='<embed type="text/html" src="/work/store-1" width="100%" height="750px">';
+            $('#board-main').html(html);
+        });
+        $('.store2').click(function(){
+            const html='<embed type="text/html" src="/work/store-2" width="100%" height="750px">';
+            $('#board-main').html(html);
+        });
+        $('.store3').click(function(){
+            const html='<embed type="text/html" src="/work/store-3" width="100%" height="750px">';
+            $('#board-main').html(html);
+        });
+        $('.store4').click(function(){
+            const html='<embed type="text/html" src="/work/store-4" width="100%" height="750px">';
+            $('#board-main').html(html);
+        });
+        $('.datatable').click(function(){
+            const html='<embed type="text/html" src="/work/data-table" width="100%" height="750px">';
+            $('#board-main').html(html);
+        });
+        $('.datachart').click(function(){
+            const html='<embed type="text/html" src="/chart/main" width="100%" height="100px">' +
+                '<embed type="text/html" src="/chart/data-chart" width="100%" height="750px">';
+            $('#board-main').html(html);
+        });
+    </script>
 </shiro:authenticated>
 </body>
 </html>

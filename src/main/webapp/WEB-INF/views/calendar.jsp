@@ -50,10 +50,10 @@
                 //themeSystem:'bootstrap4',
                 editable: true, //編集可能
                 droppable: true, //ドロップ可能
-                selectable: true,
-                selectHelper:true,
+                //selectable: false,
+                //selectHelper:true,
                 contentHeight: 652,//カレンダーの高さ  //５店舗:295  ++　51　　　heightはタイトル行も含む
-                scrollTime: moment().format('HH:mm'), //スクロールの初期位置
+                scrollTime: '09:00', //スクロールの初期位置
                 minTime: '09:00', //timelineの開始時間
                 nowIndicator:true,//
                 customButtons: { //新規カスタマーボタン
@@ -74,7 +74,7 @@
                             $("select[name=courseid]").css("border","3px solid orange");
                             $("input[name=start]").css("border","3px solid orange");
                             $("input[name=end]").css("border","3px solid orange");
-                            $("input[name=level]").css("border","3px solid orange");
+                            $("select[name=level]").css("border","3px solid orange");
 
                             $('div[name=id]').hide();
                             $('.btn-primary').show();
@@ -83,17 +83,14 @@
                         }
                     },
                     refreshButton: { //ボタン名
-
-                    },
-                    returnBoardButton:{
-                        text:"Return to Board",//管理画面に戻る
+                        text:"リフレッシュ",
                         click:function(){
-                            window.location.href="/work/board";
+                            location.reload();
                         }
                     }
                 },
                 header: {
-                    left: 'today prevYear,prev,next,nextYear addWorkButton returnBoardButton', //左上のボタン集
+                    left: 'today prevYear,prev,next,nextYear addWorkButton refreshButton', //左上のボタン集
                     center: 'title', //中の表示項目
                     right: 'timelineDay,agendaWeek,month' //右のボタン集 {agendaWeek,month}
                 },
@@ -223,7 +220,7 @@
                     $("select[name=courseid]").css("border","3px solid orange");
                     $("input[name=start]").val(moment(event.start,'llll').format('YYYY-MM-DD HH:mm:ss'));
                     $("input[name=end]").val(moment(event.end,'llll').format('YYYY-MM-DD HH:mm:ss'));
-                    $("input[name=level]").css("border","3px solid orange");
+                    $("select[name=level]").css("border","3px solid orange");
 
                     $('div[name=id]').hide();
                     $('.btn-primary').show();
@@ -249,7 +246,7 @@
                     $("input[name=start]").val(moment(calEvent.start,'llll').format('YYYY-MM-DD HH:mm:ss'));
                     $("input[name=end]").val(moment(calEvent.end,'llll').format('YYYY-MM-DD HH:mm:ss'));
                     $("textarea[name=note]").val(calEvent.note);
-                    $("input[name=level]").val(calEvent.level);
+                    $("select[name=level]").val(calEvent.level);
 
                     $('div[name=id]').show();
                     $('.btn-primary').hide();
@@ -285,7 +282,7 @@
                     $("input[name=start]").val(moment(calEvent.start,'llll').format('YYYY-MM-DD HH:mm:ss'));
                     $("input[name=end]").val(moment(calEvent.end,'llll').format('YYYY-MM-DD HH:mm:ss'));
                     $("textarea[name=note]").val(calEvent.note);
-                    $("input[name=level]").val(calEvent.level);
+                    $("select[name=level]").val(calEvent.level);
 
                     $('div[name=id]').show();
                     $('.btn-primary').hide();
@@ -417,7 +414,7 @@
                                         <select name="courseid" class="form-control" onchange="courseidSelected();">
                                             <option selected>
                                                 <c:forEach items="${COURSELIST}" var="courselist">
-                                            <option value="${courselist.courseid}" ${courselist.courseid == courseid ? 'selected' : '' }>【${courselist.price_uriage}円】:${courselist.kb_coursename}</option>
+                                            <option value="${courselist.courseid}" ${courselist.courseid == courseid ? 'selected' : '' }>【${courselist.price}円】:${courselist.coursename}</option>
                                             </c:forEach>
                                         </select>
                                     </c:when>
@@ -435,15 +432,18 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="col-sm-2">状態</label>
+                            <label class="col-sm-2">指名</label>
                             <div class="col-sm-10">
-                                <input type="text" class="form-control" name="level" placeholder="Level" onchange="levelInputed();">
+                                <select name="level" class="form-control" onchange="levelInputed();">
+                                    <option selected></option>
+                                    <option value="1">指名</option>
+                                    <option value="0">非指名</option>
+                                </select>
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="col-sm-2">メモ</label>
                             <div class="col-sm-10">
-                                <%--<input type="textarea" class="form-control form-datetime"  name="note" placeholder="メモ">--%>
                                 <textarea class="form-control" name="note" rows="2" placeholder="メモ"></textarea>
                             </div>
                         </div>
@@ -514,6 +514,16 @@
             });
             $('.btn-default').click(function(){
                 location.reload();
+            });
+
+            $(document).ready(function() {
+                moment.locale('ja');
+                var html = `<h2 id='time'></h2>`;
+                $('.fc-center').append(html);
+                setInterval(function() {
+                    var momentNow = moment();
+                    $('#time').html(momentNow.format('dddd') + ' ' + momentNow.format('HH:mm:ss'));
+                }, 100);
             });
         </script>
     </div>

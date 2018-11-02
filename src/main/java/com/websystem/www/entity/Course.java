@@ -11,8 +11,8 @@ public class Course {
 	private Integer coursetime;
 	private String note;
 	private String delkbn;
-	private String price_uriage;
-	private String price_genka;
+	private String price;
+
 
     public String getKb_coursename() {
         return kb_coursename;
@@ -70,19 +70,11 @@ public class Course {
 		this.delkbn = delkbn;
 	}
 
-    public String getPrice_uriage() {
-        return price_uriage;
+    public String getPrice() {
+        return price;
     }
 
-    public void setPrice_uriage(String price_uriage) {
-        this.price_uriage = price_uriage;
-    }
-
-    public String getPrice_genka() {
-        return price_genka;
-    }
-
-    public void setPrice_genka(String price_genka) {
-        this.price_genka = price_genka;
+    public void setPrice(String price) {
+        this.price = price;
     }
 }

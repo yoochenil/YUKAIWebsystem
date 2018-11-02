@@ -18,4 +18,6 @@ public interface WorkService {
     int updWork(Work work);
 
     int delWork(String id);
+
+	List<HashMap<String,String>> ajaxGetWorkDataTable(HashMap<String, String> paramMap);
 }

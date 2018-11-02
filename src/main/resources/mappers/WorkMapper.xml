@@ -44,7 +44,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	from
 		t_work
 	where
-	    to_char(dts_rec_cre,'yyyymmdd') = #{date}
+	    to_char("start",'yyyymmdd') = #{date}
     and storeid=#{storeid}
     and delkbn = '0';
 
@@ -84,7 +84,6 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</insert>
 
 	<update id="updWork" parameterType="Work">
-
 		SET TRANSACTION READ WRITE;
         update
             t_work
@@ -117,5 +116,53 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         where
         id = #{id}
     </update>
+
+    <select id="ajaxGetWorkDataTable" parameterType="HashMap" resultType="hashmap">
+		select
+		work.id,
+		work.title,
+		work.storeid,
+		work.roomid,
+		work.resourceid,
+		work.start,
+		work."end",
+		work.courseid,
+		course.coursename as course,
+		course.coursetime,
+		course.price,
+		case when work.level = '1' then round(to_number(course.price,'999999999') * 0.63)
+		else round(to_number(course.price,'999999999') * 0.6)
+		end genka,
+		work.staffid,
+		t_user.name_display,
+		t_user.name_kanji,
+		t_user.name_kana,
+		t_user.roleid,
+		t_role.rolename,
+		work.dts_rec_cre,
+		work.user_rec_cre,
+		work.dts_rec_upd,
+		work.user_rec_upd,
+		work.level,
+		work.note
+		from t_work work
+		left join t_course course
+		on course.courseid = work.courseid
+		and course.delkbn = '0'
+		left join t_user t_user
+		on t_user.username = work.staffid
+		and t_user.delkbn = '0'
+		left join t_role t_role
+		on t_role.roleid = t_user.roleid
+		and t_role.delkbn = '0'
+		where to_char(work.start, 'yyyymmdd') = #{date}
+		and work.delkbn = '0'
+		<if test="storeid != null">
+			and work.storeid = #{storeid}
+		</if>
+		<if test="staffid != null">
+			and work.staffid = #{staffid}
+		</if>
+	</select>
 
 </mapper>

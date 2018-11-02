@@ -94,7 +94,7 @@ public class UserController {
             e.printStackTrace();
         }
 
-		modelAndView.setViewName("index");
+		modelAndView.setViewName("redirect:/");
 		return modelAndView;
 	}
 

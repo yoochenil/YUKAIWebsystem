@@ -48,4 +48,10 @@ public class WorkServiceImpl implements WorkService {
     public int delWork(String id){
 	    return workDao.delWork(id);
     }
+
+    @Override
+    public List<HashMap<String,String>> ajaxGetWorkDataTable(HashMap<String, String> paramMap) {
+        return workDao.ajaxGetWorkDataTable(paramMap);
+    }
+
 }
